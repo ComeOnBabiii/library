@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -34,19 +35,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
     
+    @Bean
+    public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
+        return new MySimpleUrlAuthenticationSuccessHandler();
+    }
+    
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 		.authorizeRequests()
-		.antMatchers("/admin/**").hasRole("ADMIN")
+		.antMatchers("/admin/**").access("hasRole('ADMIN')")
 		.and().authorizeRequests()
-		.antMatchers("/").hasRole("USER")
+		.antMatchers("/client/**").access("hasRole('USER')")
 		.anyRequest().permitAll()
 		.and().formLogin()
 		.loginPage("/login").loginProcessingUrl("/login")
 		.usernameParameter("username")
 		.passwordParameter("password")
-		.defaultSuccessUrl("/admin")
+		.successHandler(myAuthenticationSuccessHandler())
 		.failureUrl("/login?error=failed")
 		.and()
 		.exceptionHandling()
@@ -57,3 +63,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
 		web.ignoring().antMatchers("/static/**");
 	}
 }
+//.anyRequest().permitAll()

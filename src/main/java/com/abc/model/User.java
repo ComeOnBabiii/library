@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -35,6 +36,9 @@ public class User {
 	@Column(name = "role")
 	private String role;
 
+	@Column(name = "featured")
+	private boolean featured;
+	
 	public User() {
 		super();
 	}
@@ -108,6 +112,12 @@ public class User {
 		this.role = role;
 	}
 
-	
+	public boolean isFeatured() {
+		return featured;
+	}
+
+	public void setFeatured(boolean featured) {
+		this.featured = featured;
+	}	
 	
 }

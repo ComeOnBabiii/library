@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,10 +40,10 @@ public class BookController {
 		model.addAttribute("books", listBooks);
 		return "admin/book/list-books";
 	}
-
+	
 	@GetMapping("/add")
-	public String AddBook(@ModelAttribute("bookRequest") Book bookRequest, Model model) {
-		model.addAttribute("bookRequest", bookRequest);
+	public String AddBook(@ModelAttribute("bookRequest")Book bookRequest, Model model) {
+		model.addAttribute("bookRequest",bookRequest);
 		return "admin/book/add-book";
 	}
 
@@ -51,7 +53,7 @@ public class BookController {
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 		bookRequest.setImages(fileName);
 		try {
-			File newFile = new File("C:\\Users\\Duc\\Desktop\\Thuc\\library\\src\\main\\resources\\static\\images\\"
+			File newFile = new File("C:\\Users\\White_Tiger\\Desktop\\demo1\\demo\\library\\src\\main\\resources\\static\\images"
 					+ file.getOriginalFilename());
 			FileOutputStream fileOutputStream;
 			fileOutputStream = new FileOutputStream(newFile);
@@ -87,6 +89,8 @@ public class BookController {
 			book.setTitle(bookRequest.getTitle());
 			book.setPublisher(bookRequest.getPublisher());
 			book.setQuantity(bookRequest.getQuantity());
+			book.setDes(bookRequest.getDes());
+			book.setCategory(bookRequest.getCategory());
 			bookService.edit(book);
 		}
 		return "redirect:/admin/book/list";
@@ -101,4 +105,17 @@ public class BookController {
 	    }
 	    return "admin/book/edit-book";
 	  }	
+	 
+	 @GetMapping("/search")
+	 public String searchName(HttpServletRequest request, HttpServletResponse response, Model model, HttpSession session) {
+		String timkiem = request.getParameter("key");
+		List<Book> listBooks = bookService.searchName(timkiem);
+		if(listBooks.size()==0) {
+			session.setAttribute("message", "Không có sách bạn cần tìm!");
+			return "admin/book/list-books";
+		}
+		session.setAttribute("message", "");
+		model.addAttribute("books", listBooks);
+		return "admin/book/list-books";
+	 }
 }

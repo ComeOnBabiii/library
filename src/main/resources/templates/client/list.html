@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- Meta, title, CSS, favicons, etc. -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" th:href="@{/images/favicon.ico}" type="image/ico" />
+
+  <title>Library</title>
+
+  <!-- Bootstrap -->
+  <link th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link th:href="@{/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
+  <!-- NProgress -->
+  <link th:href="@{/vendors/nprogress/nprogress.css}" rel="stylesheet">
+  <!-- iCheck -->
+  <link th:href="@{/vendors/iCheck/skins/flat/green.css}" rel="stylesheet">
+
+  <!-- bootstrap-progressbar -->
+  <link th:href="@{/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css}" rel="stylesheet">
+  <!-- JQVMap -->
+  <link th:href="@{/vendors/jqvmap/dist/jqvmap.min.css}" rel="stylesheet"/>
+  <!-- bootstrap-daterangepicker -->
+  <link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet">
+
+  <!-- Custom Theme Style -->
+  <link th:href="@{/css/custom.min.css}" rel="stylesheet">
+  
+  
+</head>
+
+<body class="nav-md">
+  <div class="container body">
+    <div class="main_container">
+          <!-- sidebar menu -->
+          <div th:replace="fragments/sidebar1 :: sidebar1"></div>
+          <!-- /sidebar menu -->
+
+      <!-- top navigation -->
+      <div th:replace="fragments/topnavigation :: topnavigation"></div>
+      <!-- /top navigation -->
+
+      <!-- page content -->
+      <div class="right_col" role="main">
+        <div class="page-title">
+              <div class="title_right">
+                <div class="col-md-9 col-sm-9 form-group top_search">
+                  <div class="input-group">
+                    
+                    <form th:action="@{/client/search}" method="get">
+                    <input type="text" class="form-control" name="timkiem" placeholder="Tìm kiếm theo..." style="width: 220px;" >
+                    <span class="input-group-btn" style="margin-top:50px;">
+                        <button class="btn btn-default" type="submit" style="margin-top:-58px;margin-left: 220px;">Tìm kiếm</button>
+                    </span>
+                    </form>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="x_panel" style="height: 1100px;">
+                  
+                  <div class="x_title">
+                    <h2>Thư viện sách</h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  
+                  <div class="x_content">
+
+                    <div class="row">
+                      
+                      <div class="col-md-55" th:each="book : ${books}">
+                        <div class="thumbnail" style="height: 250px; width: 150px;">
+                          <div class="image view view-first">
+                            <img style="width: 100%; display: block;" th:src="@{'/images/'+ ${book.images}}" alt="image" />
+                            <div class="mask">
+                              <div class="tools tools-bottom">
+                                <a th:href="@{/client/detail/id={id}(id=${book.id})}"><i class="fa fa-book"></i></a>
+                                
+                                <a th:href="@{/client/cart/{id}(id=${book.id})}"><i class="fa fa-shopping-cart"></i></a>
+                                
+                              </div>
+                            </div>
+                          </div>
+                          <div class="caption" style="height: 120px;">
+                          	
+                          		
+                            	<h6 th:text="${book.title}"></h6> 
+                            	
+     							<p th:text="|Tác giả:${book.author}|"></p>
+    							
+                            	<!-- <p th:text="|Tác giả:${book.author}|"></p> -->
+                           
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <h3 th:text="${session.messa}" style="color:dark;margin:auto;"></h3>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div>
+      <!-- /page content -->
+
+      <!-- footer content -->
+      <footer>
+        <div class="pull-right">
+          Hệ thống quản lý thư viện
+        </div>
+        <div class="clearfix"></div>
+      </footer>
+      <!-- /footer content -->
+    </div>
+  </div>
+
+  <!-- jQuery -->
+  <script type="text/javascript" th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+  <!-- Bootstrap -->
+  <script type="text/javascript" th:src="@{/vendors/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+  <!-- FastClick -->
+  <script type="text/javascript" th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
+  <!-- NProgress -->
+  <script type="text/javascript" th:src="@{/vendors/nprogress/nprogress.js}"></script>
+  <!-- Chart.js -->
+  <script type="text/javascript" th:src="@{/vendors/Chart.js/dist/Chart.min.js}"></script>
+  <!-- gauge.js -->
+  <script type="text/javascript" th:src="@{/vendors/gauge.js/dist/gauge.min.js}"></script>
+  <!-- bootstrap-progressbar -->
+  <script type="text/javascript" th:src="@{/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js}"></script>
+  <!-- iCheck -->
+  <script type="text/javascript" th:src="@{/vendors/iCheck/icheck.min.js}"></script>
+  <!-- Skycons -->
+  <script type="text/javascript" th:src="@{/vendors/skycons/skycons.js}"></script>
+  <!-- Flot -->
+  <script type="text/javascript" th:src="@{/vendors/Flot/jquery.flot.js}"></script>
+  <script type="text/javascript" th:src="@{/vendors/Flot/jquery.flot.pie.js}"></script>
+  <script type="text/javascript" th:src="@{/vendors/Flot/jquery.flot.time.js}"></script>
+  <script type="text/javascript" th:src="@{/vendors/Flot/jquery.flot.stack.js}"></script>
+  <script type="text/javascript" th:src="@{/vendors/Flot/jquery.flot.resize.js}"></script>
+  <!-- Flot plugins -->
+  <script type="text/javascript" th:src="@{/vendors/flot.orderbars/js/jquery.flot.orderBars.js}"></script>
+  <script type="text/javascript" th:src="@{/vendors/flot-spline/js/jquery.flot.spline.min.js}"></script>
+  <script type="text/javascript" th:src="@{/vendors/flot.curvedlines/curvedLines.js}"></script>
+  <!-- DateJS -->
+  <script type="text/javascript" th:src="@{/vendors/DateJS/build/date.js}"></script>
+  <!-- JQVMap -->
+  <script type="text/javascript" th:src="@{/vendors/jqvmap/dist/jquery.vmap.js}"></script>
+  <script type="text/javascript" th:src="@{/vendors/jqvmap/dist/maps/jquery.vmap.world.js}"></script>
+  <script type="text/javascript" th:src="@{/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js}"></script>
+  <!-- bootstrap-daterangepicker -->
+  <script type="text/javascript" th:src="@{/vendors/moment/min/moment.min.js}"></script>
+  <script type="text/javascript" th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
+
+  <!-- Custom Theme Scripts -->
+  <script type="text/javascript" th:src="@{/js/custom.min.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- Meta, title, CSS, favicons, etc. -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" th:href="@{/images/favicon.ico}" type="image/ico" />
+
+  <title>Library</title>
+
+  <!-- Bootstrap -->
+  <link th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link th:href="@{/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
+  <!-- NProgress -->
+  <link th:href="@{/vendors/nprogress/nprogress.css}" rel="stylesheet">
+  <!-- iCheck -->
+  <link th:href="@{/vendors/iCheck/skins/flat/green.css}" rel="stylesheet">
+
+  <!-- bootstrap-progressbar -->
+  <link th:href="@{/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css}" rel="stylesheet">
+  <!-- JQVMap -->
+  <link th:href="@{/vendors/jqvmap/dist/jqvmap.min.css}" rel="stylesheet"/>
+  <!-- bootstrap-daterangepicker -->
+  <link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet">
+
+  <!-- Custom Theme Style -->
+  <link th:href="@{/css/custom.min.css}" rel="stylesheet">
+  
+</head>
+<body class="nav-md">
+  <div class="container body">
+    <div class="main_container">
+          <!-- sidebar menu -->
+          <div th:replace="fragments/sidebar :: sidebar"></div>
+          <!-- /sidebar menu -->
+
+      <!-- top navigation -->
+      <div th:replace="fragments/topnavigation :: topnavigation"></div>
+      <!-- /top navigation -->
+
+      <!-- page content -->
+       <div class="right_col" role="main">
+        <div class="clearfix"></div>
+        
+        <span th:text="${session.error}" style="color:red;"></span>
+        
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <div class="x_panel" style="height: 480px;">
+              <div class="x_title">
+                <h2>Cập nhật ngày hẹn trả sách</h2>
+                <div class="clearfix"></div>
+              </div>
+
+              <div class="x_content">
+                <form th:action="@{/admin/invoice/{option}/{id}(option=${invoice.status},id=${invoice.id})}" method="post" th:object="${invoice}" enctype="multipart/form-data" >
+                  <div class="field item form-group">
+                    <label class="col-form-label col-md-3 col-sm-3  label-align">Người mượn</label>
+                    <div class="col-md-6 col-sm-6">
+                      <input class="form-control" th:field="*{user.name}" type="text" name="id" required />
+                    </div>
+                  </div>
+
+                  <div class="field item form-group">
+                    <label class="col-form-label col-md-3 col-sm-3  label-align">Ngày mượn</label>
+                    <div class="col-md-6 col-sm-6">
+                      <input class="form-control" th:field="*{ngayMuon}"  name="ngayMuon" type="date" required/>
+                    </div>
+                  </div>
+
+                  <div class="field item form-group">
+                    <label class="col-form-label col-md-3 col-sm-3  label-align">Ngày hẹn<strong class="required" style="color:red;">*</strong></label>
+                    <div class="col-md-6 col-sm-6">
+                      <input class="form-control" th:field="*{ngayHen}" name="ngayHen" type="date" required />
+                    </div>
+                  </div>
+
+                  <!-- <div class="field item form-group">
+                    <label class="col-form-label col-md-3 col-sm-3  label-align">Ngày trả<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6">
+                      <input class="form-control" type="date" name="ngayTra" th:field="*{ngayTra}" required />
+                    </div>
+                  </div> -->
+
+
+                  <div class="ln_solid">
+                    <div class="form-group">
+                      <div class="col-md-6 offset-md-3">
+                        <button type='submit' class="btn btn-primary">Cập nhật</button>
+                        <button onclick='returnList()' class="btn btn-success">Quay lại</button>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- /page content -->
+
+      <!-- footer content -->
+      <footer>
+        <div class="pull-right">
+          Hệ thống quản lý thư viện
+        </div>
+        <div class="clearfix"></div>
+      </footer>
+      <!-- /footer content -->
+    </div>
+  </div>
+  </div>
+	<script>
+        // initialize a validator instance from the "FormValidator" constructor.
+        // A "<form>" element is optionally passed as an argument, but is not a must
+        var validator = new FormValidator({
+          "events": ['blur', 'input', 'change']
+        }, document.forms[0]);
+        // on form "submit" event
+        document.forms[0].onsubmit = function(e) {
+          var submit = true,
+          validatorResult = validator.checkAll(this);
+          console.log(validatorResult);
+          return !!validatorResult.valid;
+        };
+        // on form "reset" event
+        document.forms[0].onreset = function(e) {
+          validator.reset();
+        };
+        // stuff related ONLY for this demo page:
+        $('.toggleValidationTooltips').change(function() {
+          validator.settings.alerts = !this.checked;
+          if (this.checked)
+            $('form .alert').remove();
+        }).prop('checked', false);
+        
+        function returnList(){
+            location.assign("/admin/invoice/list");
+        }
+
+      </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript" th:src="@{/vendors/validator/multifield.js}"></script>
+  <script type="text/javascript" th:src="@{/vendors/validator/validator.js}"></script>
+  <!-- jQuery -->
+  <script type="text/javascript" th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+      <!-- Bootstrap -->
+  <script type="text/javascript" th:src="@{/vendors/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+      <!-- FastClick -->
+  <script type="text/javascript" th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
+      <!-- NProgress -->
+  <script type="text/javascript" th:src="@{/vendors/nprogress/nprogress.js}"></script>
+      <!-- validator -->
+      <!-- Custom Theme Scripts -->
+  <script type="text/javascript" th:src="@{/js/custom.min.js}"></script>
+</body>
+</html>

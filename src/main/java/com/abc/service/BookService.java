@@ -30,7 +30,7 @@ public class BookService {
 		newBook.setPublisher(book.getPublisher());
 		newBook.setQuantity(book.getQuantity());
 		newBook.setImages(book.getImages());	
-		
+		newBook.setDes(book.getDes());
 		try {
 			bookRepository.save(newBook);
 		} catch (Exception e) {
@@ -49,4 +49,31 @@ public class BookService {
 	public Optional<Book> findById(long id) {
 		return bookRepository.findById(id);
 	}
+	
+	public Book getById(long id) {
+		return bookRepository.getById(id);
+		
+	}
+	
+	public Book getId(long id) {
+		return bookRepository.getId(id);
+		
+	}
+	
+	public List<Book> search(String category){
+		return bookRepository.findByCategory(category);
+	}
+	
+	public List<Book> searchName(String title){
+		return bookRepository.findByTitleContaining(title);
+	}
+	
+	public long countCategory(String category) {
+		return bookRepository.countByCategory(category);
+	}
+	
+	public Long sumQuantities() {
+		return bookRepository.sumQuantities();
+	}
+	
 }

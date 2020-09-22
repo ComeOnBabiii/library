@@ -1,14 +1,17 @@
 package com.abc.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import org.springframework.web.multipart.MultipartFile;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "book")
@@ -30,16 +33,19 @@ public class Book {
 	private String category;
 	
 	@Column(name = "quantity")
-	private double quantity;
+	private int quantity;
 	
 	@Column(name = "images")
 	private String images;
+	
+	@Column(name = "des")
+	private String des;
 
 	public Book() {
 		super();
 	}
 
-	public Book(long id, String title, String author, String publisher,String category, double quantity, String images) {
+	public Book(long id, String title, String author, String publisher, String category, int quantity, String images, String des) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -48,6 +54,7 @@ public class Book {
 		this.category = category;
 		this.quantity = quantity;
 		this.images = images;
+		this.des = des;
 	}
 
 	public long getId() {
@@ -82,11 +89,11 @@ public class Book {
 		this.publisher = publisher;
 	}
 
-	public double getQuantity() {
+	public int getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(double quantity) {
+	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 
@@ -105,5 +112,13 @@ public class Book {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+
+	public String getDes() {
+		return des;
+	}
+
+	public void setDes(String des) {
+		this.des = des;
+	}	
 	
 }
